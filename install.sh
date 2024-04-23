@@ -22,21 +22,20 @@ else
     exit 1
 fi
 echo "目前服务器的操作系统为: $release"
-
 arch() {
     case "$(uname -m)" in
-        x86_64 | x64 | amd64 ) echo 'amd64' ;;
-        i*86 | x86 ) echo '386' ;;
-        armv8* | armv8 | arm64 | aarch64 ) echo 'arm64' ;;
-        armv7* | armv7 | arm ) echo 'armv7' ;;
-        armv6* | armv6 ) echo 'armv6' ;;
-        armv5* | armv5 ) echo 'armv5' ;;
-        armv5* | armv5 ) echo 's390x' ;;
-        *) echo -e "${green}不支持的CPU架构! ${plain}" && rm -f install.sh && exit 1 ;;
+    x86_64 | x64 | amd64) echo 'amd64' ;;
+    i*86 | x86) echo '386' ;;
+    armv8* | armv8 | arm64 | aarch64) echo 'arm64' ;;
+    armv7* | armv7 | arm) echo 'armv7' ;;
+    armv6* | armv6) echo 'armv6' ;;
+    armv5* | armv5) echo 'armv5' ;;
+    s390x) echo 's390x' ;;
+    *) echo -e "${green}Unsupported CPU architecture! ${plain}" && rm -f install.sh && exit 1 ;;
     esac
 }
 
-echo "架构: $(arch)"
+echo "arch: $(arch)"
 
 os_version=$(grep -i version_id /etc/os-release | cut -d \" -f2 | cut -d . -f1)
 
