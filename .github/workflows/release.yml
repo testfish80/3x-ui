@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: '3.10.2' #'发布的目标 Release 标签（例如 v2.5.0）'
+        description: '发布的目标 Release 标签（例如 v2.5.0）'
         required: false
-        default: 'dev-test'
+        default: '3.10.2'
   # Only main (dev channel) and version tags ship binaries; build any other
   # branch on demand via workflow_dispatch.
   # push:
