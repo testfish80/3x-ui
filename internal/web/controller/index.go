@@ -41,16 +41,13 @@ func NewIndexController(g *gin.RouterGroup) *IndexController {
 }
 
 // initRouter sets up the routes for index, login, logout, and two-factor authentication.
-// func (a *IndexController) initRouter(g *gin.RouterGroup) {
-// 	g.GET("/", a.index)
-// 	g.GET("/csrf-token", a.csrfToken)
-// 	g.GET("/sponsors", a.sponsors)
-// 	g.GET("/sponsors/logo/:name", a.sponsorLogo)
-
-// 	g.POST("/login", middleware.CSRFMiddleware(), a.login)
-// 	g.POST("/logout", middleware.CSRFMiddleware(), a.logout)
-// 	g.POST("/getTwoFactorEnable", middleware.CSRFMiddleware(), a.getTwoFactorEnable)
-// }
+func (a *IndexController) initRouter(g *gin.RouterGroup) {
+	g.GET("/", a.index)
+	g.GET("/csrf-token", a.csrfToken)
+	g.POST("/login", middleware.CSRFMiddleware(), a.login)
+	g.POST("/logout", middleware.CSRFMiddleware(), a.logout)
+	g.POST("/getTwoFactorEnable", middleware.CSRFMiddleware(), a.getTwoFactorEnable)
+}
 
 // // sponsors is public so the login page can render its slot; failures stay silent.
 // func (a *IndexController) sponsors(c *gin.Context) {
