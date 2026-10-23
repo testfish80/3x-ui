@@ -1,4 +1,4 @@
-module github.com/mhsanaei/3x-ui/v3
+module github.com/testfish80/3x-ui/v3
 
 go 1.27.3
 
