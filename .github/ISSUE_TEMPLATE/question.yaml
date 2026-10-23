@@ -9,7 +9,7 @@ body:
       value: |
         Before opening a question, please:
 
-        - Read the [project Wiki](https://github.com/MHSanaei/3x-ui/wiki) —
+        - Read the [project Wiki](https://github.com/testfish80/3x-ui/wiki) —
           most setup, install, and "how do I …" answers live there.
         - Search [existing issues](../issues?q=is%3Aissue) — the question
           may already have been asked.
