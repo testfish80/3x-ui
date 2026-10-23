@@ -242,4 +242,4 @@ func fetchSponsors() (*SponsorList, error) {
 // 		out.Sponsors = append(out.Sponsors, sp)
 // 	}
 // 	return out
-// }
+}
