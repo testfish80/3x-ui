@@ -2,23 +2,28 @@ name: Release 3X-UI
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: '发布的目标 Release 标签（例如 v2.5.0）'
+        required: false
+        default: '3.11.0'
   # Only main (dev channel) and version tags ship binaries; build any other
-  # branch on demand via workflow_dispatch.
-  push:
-    branches:
-      - main
-    tags:
-      - "v*.*.*"
-    paths:
-      - "**.go"
-      - "go.mod"
-      - "go.sum"
-      - "**.sh"
-      - "frontend/**"
-      - "x-ui.service.debian"
-      - "x-ui.service.arch"
-      - "x-ui.service.rhel"
-      - ".github/workflows/release.yml"
+  # # branch on demand via workflow_dispatch.
+  # push:
+  #   branches:
+  #     - main
+  #   tags:
+  #     - "v*.*.*"
+  #   paths:
+  #     - "**.go"
+  #     - "go.mod"
+  #     - "go.sum"
+  #     - "**.sh"
+  #     - "frontend/**"
+  #     - "x-ui.service.debian"
+  #     - "x-ui.service.arch"
+  #     - "x-ui.service.rhel"
+  #     - ".github/workflows/release.yml"
 
 jobs:
   build:
@@ -188,10 +193,10 @@ jobs:
 
       - name: Upload files to GH release
         uses: svenstaro/upload-release-action@v2
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || inputs.release_tag }}
           file: x-ui-linux-${{ matrix.platform }}.tar.gz*
           file_glob: true
           overwrite: true
@@ -329,15 +334,14 @@ jobs:
 
       - name: Upload files to GH release
         uses: svenstaro/upload-release-action@v2
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
+          tag: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || inputs.release_tag }}
           file: x-ui-windows-amd64.zip*
           file_glob: true
           overwrite: true
           prerelease: true
-
   # =================================
   #  Rolling dev channel (per-commit)
   # =================================
