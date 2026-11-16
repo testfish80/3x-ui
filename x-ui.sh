@@ -2402,8 +2402,10 @@ setup_fail2ban_iplimit() {
 }
 
 # install_iplimit is the interactive (menu) entry point: it runs the shared
-# setup and then returns to the menu. The non-interactive installer path uses
-# setup_fail2ban_iplimit directly via `x-ui setup-fail2ban`.
+# setup and then returns to the menu. Fork: the non-interactive installer
+# path no longer auto-installs fail2ban (the CLI hook was removed from the
+# dispatch below); install.sh / update.sh skip it via their existing
+# no-hook guard. Manual install from the IP Limit menu still works.
 install_iplimit() {
     setup_fail2ban_iplimit
     before_show_menu
@@ -3671,9 +3673,11 @@ if [[ $# -gt 0 ]]; then
         "banlog")
             check_install 0 && show_banlog 0
             ;;
-        "setup-fail2ban")
-            setup_fail2ban_iplimit
-            ;;
+        # Fork: do not auto-install fail2ban on install/update.
+        # The installer hook was removed here on purpose, so
+        # install.sh / update.sh hit their existing no-hook guard
+        # and skip fail2ban auto-setup. Manual install from the
+        # IP Limit menu still works via install_iplimit.
         "update")
             check_install 0 && update 0
             ;;
